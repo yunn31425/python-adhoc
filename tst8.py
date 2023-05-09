@@ -1,13 +1,13 @@
 import socket
 import pickle
+import threading
 
 PORT = 9000
 
 class pack:
-    start = ''
     dest = ''
-    returnValue = 0
-    message = ''
+    returnValue = 0 # 0 if message go upward, 1 if message go downward    
+    message = 'hello world from'
 
     def __init__(self, stt, dst, msg):
         self.start = stt
@@ -20,15 +20,16 @@ class pack:
     def setStart(self, st):
         self.start = st
 
+
 def main():
-    '''for 192.168.1.1'''    
+       
     print('for 192.168.1.1')
 
     while(1):        
-        sendSock = pack('192.168.1.1', '192.168.1.3', 'hello world!')
+        sendmsg = pack('192.168.1.1', '192.168.1.3', 'hello world!')
         sendSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sendSock.connect(('192.168.1.2', PORT))
-        sendSock.sendall(pickle.dumps(received))
+        sendSock.sendall(pickle.dumps(sendmsg))
 
         recvSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         recvSock.bind(('', PORT))
