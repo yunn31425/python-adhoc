@@ -34,7 +34,7 @@ def main():
         sendSock.close()
 
     while(1):    
-
+        
         recvSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         recvSock.bind(('', PORT))
         recvSock.listen(1)
