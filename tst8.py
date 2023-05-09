@@ -3,7 +3,7 @@ import pickle
 import threading
 
 PORT = 9000
-IP = '192.168.1.1'
+IP = '192.168.1.1' # need to be changed for each node in subnet 192.168.1.0
 
 class pack:
     dest = ''
@@ -33,37 +33,39 @@ def main():
         print("message send")
         sendSock.close()
 
-    recvSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    recvSock.bind(('', PORT))
-    recvSock.listen(1)
-    connetcionSocket, addr = recvSock.accept()
-    received = pickle.loads(connetcionSocket.recv(1024))
+    while(1):    
 
-    if IP == '192.168.1.1':
-        print('received' + received.message)
+        recvSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        recvSock.bind(('', PORT))
+        recvSock.listen(1)
+        connetcionSocket, addr = recvSock.accept()
+        received = pickle.loads(connetcionSocket.recv(1024))
+        recvSock.close()
 
-    else:    
-        tgt = ''
-        if IP == '192.168.1.2':
-            # relay message
-            received.message += '-> ' + IP + ' ->'            
-            if received.returnValue == 0:
-                tgt = '192.168.1.3'
-            elif received.returnValue == 1:
-                tgt = '192.168.1.1'
-            print('relay message' + received.message)
-        
-        elif IP == '192.168.1.3':
-            # return messag
-            received.message += '-> ' + IP + ' ->'
-            received.returnValue = 1
-            tgt = '192.168.1.2'
-            print('return message' + received.message)
+        if IP == '192.168.1.1':
+            print('received ' + received.message)
 
-        sendSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sendSock.connect((tgt, PORT))
-        sendSock.sendall(pickle.dumps(sendmsg))
+        else:    
+            tgt = ''
+            if IP == '192.168.1.2':
+                # relay message
+                received.message += (' -> ' + IP)
+                if received.returnValue == 0:
+                    tgt = '192.168.1.3'
+                elif received.returnValue == 1:
+                    tgt = '192.168.1.1'
+                print('relay message :' + received.message)
+            
+            elif IP == '192.168.1.3':
+                # return messag
+                received.message += (' -> ' + IP)
+                received.returnValue = 1
+                tgt = '192.168.1.2'
+                print('return message :' + received.message)
 
+            sendSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sendSock.connect((tgt, PORT))
+            sendSock.sendall(pickle.dumps(received))
        
 if __name__ == '__main__':
     main()
