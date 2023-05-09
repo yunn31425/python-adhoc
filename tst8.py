@@ -46,7 +46,7 @@ def main():
         tgt = ''
         if IP == '192.168.1.2':
             # relay message
-            received.message += '-> 192.168.1.2 ->'            
+            received.message += '-> ' + IP + ' ->'            
             if received.returnValue == 0:
                 tgt = '192.168.1.3'
             elif received.returnValue == 1:
@@ -55,7 +55,7 @@ def main():
         
         elif IP == '192.168.1.3':
             # return messag
-            received.message += '-> 192.168.1.3 ->'
+            received.message += '-> ' + IP + ' ->'
             received.returnValue = 1
             tgt = '192.168.1.2'
             print('return message' + received.message)
@@ -63,6 +63,7 @@ def main():
         sendSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sendSock.connect((tgt, PORT))
         sendSock.sendall(pickle.dumps(sendmsg))
+
        
 if __name__ == '__main__':
     main()
