@@ -41,6 +41,7 @@ def main():
     recvSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     recvSock.bind(('', PORT))
     recvSock.listen(1)
+    
     while(1):    
         
         print("waiting for message")
