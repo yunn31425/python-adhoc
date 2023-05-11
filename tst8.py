@@ -21,14 +21,13 @@ class pack:
     def setStart(self, st):
         self.start = st
 
-        
 def rcvMsg(port, ipAdr) -> pack:
     pass
 def sendMsg(port, ipAdr) -> pack:
     pass
 
 
-def main():
+def main(): 
 
     if IP == '192.168.1.1':
         #send message
@@ -39,14 +38,14 @@ def main():
         print("message send")
         sendSock.close()
 
+    recvSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    recvSock.bind(('', PORT))
+    recvSock.listen(1)
     while(1):    
-
-        recvSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        recvSock.bind(('', PORT))
-        recvSock.listen(1)
+        
         print("waiting for message")
-        connetcionSocket, addr = recvSock.accept()
-        received = pickle.loads(connetcionSocket.recv(1024))
+        connectionSocket, addr = recvSock.accept()
+        received = pickle.loads(connectionSocket.recv(1024))
         recvSock.close()
 
         if IP == '192.168.1.1':
