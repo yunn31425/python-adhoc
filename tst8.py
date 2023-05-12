@@ -21,11 +21,12 @@ class pack:
     def setStart(self, st):
         self.start = st
 
+def initRevSock():
+    pass
 def rcvMsg(port, ipAdr) -> pack:
     pass
 def sendMsg(port, ipAdr) -> pack:
     pass
-
 
 def main(): 
 
