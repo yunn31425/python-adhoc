@@ -27,6 +27,7 @@ class pack:
         tmp = self.dest
         self.dest = self.start
         self.start = tmp
+        self.returnValue = self.returnValue*(-1)
 
 def initRevSock():
     recvSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -71,9 +72,8 @@ def main():
         if received.dest == IP:            
             if received.returnValue == -1:
                 break # got back
-            else:
-                received.turnAround()                
-                received.returnValue = -1
+      
+            received.turnAround()     
 
         received.message += " -> " + IP
         sendMsg(PORT, SetDest(IP, received.returnValue), received)
